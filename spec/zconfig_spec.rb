@@ -1,10 +1,11 @@
 require "zconfig"
 
 describe ZConfig do
-  # TODO: let's create some sample configs to load
   let(:base_path) do
     File.expand_path(File.join("..", "fixtures", "base"), __FILE__)
   end
+
+  after { clean_config_path }
 
   describe ".setup" do
     it "sets base path"
@@ -38,14 +39,32 @@ describe ZConfig do
     end
 
     it "reloads config on new file" do
-      # TODO: can YAML convert to strings on dump?
-      variables = { "foo" => rand(99999) }
-      path = File.join(base_path, "development", "variables.yml")
-      File.open(path, "w") { |file| file << YAML.dump(variables) }
+      variables = { "foo" => rand(999) }
+      create_or_modify_config("variables", variables)
       expect(ZConfig.get(:variables, :foo)).to eq(variables["foo"])
-      File.delete(path)
     end
 
-    it "reloads config on existing file change"
+    it "reloads config on existing file change" do
+      variables = { "foo" => rand(999) }
+      create_or_modify_config("variables", variables)
+      expect(ZConfig.get(:variables, :foo)).to eq(variables["foo"])
+      variables["bar"] = rand(999)
+      create_or_modify_config("variables", variables)
+      expect(ZConfig.get(:variables, :bar)).to eq(variables["bar"])
+    end
+  end
+
+  def create_or_modify_config(name, values)
+    # TODO: can YAML convert to strings on dump?
+    path = File.join(base_path, "development", "#{name}.yml")
+    File.open(path, "w") { |file| file << YAML.dump(values) }
+    # TODO: not ideal to introduce a sleep into specs
+    sleep(0.1)
+  end
+
+  def clean_config_path
+    Dir[File.join(base_path, "development", "**", "*")].each do |file|
+      File.delete(file) unless /servers.yml/.match(file)
+    end
   end
 end
