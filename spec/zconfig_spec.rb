@@ -2,7 +2,7 @@ require "zconfig"
 
 describe ZConfig do
   let(:base_path) do
-    File.expand_path(File.join("..", "fixtures", "base"), __FILE__)
+    File.expand_path("../fixtures/base"), __FILE__)
   end
 
   after { clean_config_path }
