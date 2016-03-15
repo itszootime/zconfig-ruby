@@ -8,8 +8,15 @@ describe ZConfig do
   after { clean_config_path }
 
   describe ".setup" do
-    it "sets base path"
-    it "sets environment"
+    it "yields given block with setup instance" do
+      expect { |s| ZConfig.setup(&s) }.to yield_with_args(ZConfig::Setup)
+    end
+
+    it "returns yielded setup instance without given block" do
+      yielded_setup = nil
+      ZConfig.setup { |s| yielded_setup = s }
+      expect(ZConfig.setup).to eq(yielded_setup)
+    end
   end
 
   describe ".get" do
