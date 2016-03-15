@@ -1,6 +1,6 @@
 # zconfig
 
-A client for (re)loading ZConfig-managed configurations.
+A library for accessing ZConfig-managed configurations within Ruby. It includes a watcher to automatically reload configurations when files are modified by the daemon.
 
 ## Requirements
 
@@ -8,7 +8,7 @@ This gem is currently only compatible with unix-based systems with inotify insta
 
 ## Usage
 
-The client needs to know where your ZConfig-managed configuration is stored, and what environment you're running in. 
+The gem needs to know the path to your ZConfig-managed configuration files, and what environment you're running in.
 
 ```ruby
 ZConfig.setup do |s|
@@ -17,7 +17,7 @@ ZConfig.setup do |s|
 end
 ```
 
-If you wish to automatically reload the configuration as soon as it's updated, you'll need to tell ZConfig to watch:
+If you wish to automatically reload the configuration as soon as it's modified, you'll need to tell ZConfig to watch:
 
 ```ruby
 ZConfig.watch!
