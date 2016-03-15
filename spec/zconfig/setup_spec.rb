@@ -1,4 +1,4 @@
-require "spec_helper"
+require "zconfig/setup"
 
 describe ZConfig::Setup do
   let(:setup) { ZConfig::Setup.new }

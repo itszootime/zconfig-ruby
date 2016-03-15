@@ -1,4 +1,4 @@
-require "zconfig"
+require "zconfig/watcher"
 
 describe ZConfig::Watcher do
   let(:watch_path) do

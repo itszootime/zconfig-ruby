@@ -1,4 +1,4 @@
-require "spec_helper"
+require "zconfig"
 
 describe ZConfig do
   let(:base_path) do
