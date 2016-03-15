@@ -7,7 +7,10 @@ module ZConfig
   @@config = {}
 
   def self.watch!
-    watcher = Watcher.new
+    watcher = Watcher.new(setup.active_path)
+    watcher.on_event do |event, _, filename|
+      ZConfig.load_file(filename) if filename.end_with?(".yml")
+    end
     at_exit { watcher.stop }
     watcher.start
   end

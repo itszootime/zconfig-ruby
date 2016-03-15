@@ -1,9 +1,18 @@
 module ZConfig
   class Watcher
+    def initialize(watch_path)
+      @watch_path = watch_path
+      @callbacks = []
+    end
+
+    def on_event(&callback)
+      @callbacks << callback
+    end
+
     def start
       input, output = IO.pipe
       # TODO: what if process gets killed by os?
-      @pid = spawn("inotifywait -mrq #{ZConfig.setup.base_path}", out: output)
+      @pid = spawn("inotifywait -mrq #{@watch_path}", out: output)
       output.close
       Thread.new do
         process_and_wait(input)
@@ -18,11 +27,13 @@ module ZConfig
 
     def process_and_wait(input)
       while line = input.readline
-        path, action, filename = line.split(/\s/)
-        # TODO: handle more actions
-        if action == "MODIFY" && filename.end_with?(".yml")
-          # TODO: might be nicer not to rely on ZConfig class vars => how about callbacks?
-          ZConfig.load_file(filename)
+        path, event, filename = line.split(/\s/)
+        event = event.downcase.to_sym
+        # TODO: handle more events
+        if event == :modify
+          @callbacks.each do |callback|
+            callback.call(event, path[0..-2], filename)
+          end
         end
       end
     end
