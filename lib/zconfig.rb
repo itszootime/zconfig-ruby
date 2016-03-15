@@ -44,7 +44,7 @@ module ZConfig
     watcher.start
   end
 
-  private
+  private # of course, this doesn't do anything
 
   def self.load(config_name)
     load_file("#{config_name}.yml")
