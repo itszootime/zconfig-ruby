@@ -5,8 +5,6 @@ describe ZConfig do
     File.expand_path("../fixtures/base", __FILE__)
   end
 
-  after { clean_config_path }
-
   describe ".setup" do
     it "yields given block with setup instance" do
       expect { |s| ZConfig.setup(&s) }.to yield_with_args(ZConfig::Setup)
@@ -44,6 +42,8 @@ describe ZConfig do
       ZConfig.setup { |s| s.base_path = base_path }
       ZConfig.watch!
     end
+
+    after { clean_config_path }
 
     it "reloads config on new file" do
       variables = { "foo" => rand(999) }
