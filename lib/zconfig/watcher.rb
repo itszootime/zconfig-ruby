@@ -11,6 +11,7 @@ module ZConfig
 
     def start
       input, output = IO.pipe
+      # TODO: what if inotifywait isn't installed?
       # TODO: what if process gets killed by os?
       @pid = spawn("inotifywait -mrq #{@watch_path}", out: output)
       output.close
