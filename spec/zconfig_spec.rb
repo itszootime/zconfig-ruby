@@ -5,6 +5,8 @@ describe ZConfig do
     File.expand_path("../fixtures/base", __FILE__)
   end
 
+  after { ZConfig.reset! }
+
   describe ".setup" do
     it "yields given block with setup instance" do
       expect { |s| ZConfig.setup(&s) }.to yield_with_args(ZConfig::Setup)
@@ -14,6 +16,10 @@ describe ZConfig do
       yielded_setup = nil
       ZConfig.setup { |s| yielded_setup = s }
       expect(ZConfig.setup).to eq(yielded_setup)
+    end
+
+    it "raises error unless previously setup" do
+      expect { ZConfig.setup }.to raise_error(ZConfig::Error)
     end
   end
 

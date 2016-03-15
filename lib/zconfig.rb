@@ -3,8 +3,7 @@ require "zconfig/watcher"
 require "yaml"
 
 module ZConfig
-  # TODO: extract to own class
-  @@config = {}
+  class Error < StandardError; end
 
   def self.watch!
     watcher = Watcher.new(setup.active_path)
@@ -15,15 +14,19 @@ module ZConfig
     watcher.start
   end
 
+  def self.config
+    @config ||= {}
+  end
+
   def self.get(*args)
     # TODO: this lookup logic is hard to read
     config_name, lookup_path = args.map(&:to_s)
-    load(config_name) unless @@config[config_name]
+    load(config_name) unless config[config_name]
 
     unless lookup_path
-      @@config[config_name]
+      config[config_name]
     else
-      @@config[config_name].fetch(lookup_path, nil) if @@config[config_name]
+      config[config_name].fetch(lookup_path, nil) if config[config_name]
     end
   end
 
@@ -32,17 +35,23 @@ module ZConfig
   end
 
   def self.load_file(filename)
-    path = File.join(@@setup.active_path, filename)
+    path = File.join(setup.active_path, filename)
     if File.exists?(path)
-      @@config[filename[0..-5]] = YAML.load(File.read(path))
+      config[filename[0..-5]] = YAML.load(File.read(path))
     end
   end
 
+  def self.reset!
+    @config, @setup = nil
+  end
+
   def self.setup
-    return @@setup unless block_given?
-    # TODO: user forgets to call setup => uninitialized class variable @@setup
-    # TODO: variable/method name confusion, can call with block to setup or without to get
-    @@setup = Setup.new
-    yield @@setup if block_given?
+    if block_given?
+      @setup = Setup.new
+      yield @setup
+    else
+      raise Error, "ZConfig hasn't been setup!" unless @setup
+      @setup
+    end
   end
 end
