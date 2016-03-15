@@ -14,9 +14,7 @@ module ZConfig
       # TODO: what if process gets killed by os?
       @pid = spawn("inotifywait -mrq #{@watch_path}", out: output)
       output.close
-      Thread.new do
-        process_and_wait(input)
-      end
+      Thread.new { process_and_wait(input) }
     end
 
     def stop
