@@ -5,15 +5,6 @@ require "yaml"
 module ZConfig
   class Error < StandardError; end
 
-  def self.watch!
-    watcher = Watcher.new(setup.active_path)
-    watcher.on_event do |event, _, filename|
-      ZConfig.load_file(filename) if filename.end_with?(".yml")
-    end
-    at_exit { watcher.stop }
-    watcher.start
-  end
-
   def self.config
     @config ||= {}
   end
@@ -30,17 +21,6 @@ module ZConfig
     end
   end
 
-  def self.load(config_name)
-    load_file("#{config_name}.yml")
-  end
-
-  def self.load_file(filename)
-    path = File.join(setup.active_path, filename)
-    if File.exists?(path)
-      config[filename[0..-5]] = YAML.load(File.read(path))
-    end
-  end
-
   def self.reset!
     @config, @setup = nil
   end
@@ -52,6 +32,28 @@ module ZConfig
     else
       raise Error, "ZConfig hasn't been setup!" unless @setup
       @setup
+    end
+  end
+
+  def self.watch!
+    watcher = Watcher.new(setup.active_path)
+    watcher.on_event do |event, _, filename|
+      ZConfig.load_file(filename) if filename.end_with?(".yml")
+    end
+    at_exit { watcher.stop }
+    watcher.start
+  end
+
+  private
+
+  def self.load(config_name)
+    load_file("#{config_name}.yml")
+  end
+
+  def self.load_file(filename)
+    path = File.join(setup.active_path, filename)
+    if File.exists?(path)
+      config[filename[0..-5]] = YAML.load(File.read(path))
     end
   end
 end
