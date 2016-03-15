@@ -62,7 +62,6 @@ describe ZConfig do
   end
 
   def create_or_modify_config(name, values)
-    # TODO: can YAML convert to strings on dump?
     path = File.join(base_path, "development", "#{name}.yml")
     File.open(path, "w") { |file| file << YAML.dump(values) }
     # TODO: not ideal to introduce a sleep into specs
