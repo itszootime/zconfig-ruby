@@ -26,8 +26,6 @@ describe ZConfig::Watcher do
       expect(callback).to receive(:call).with(:modify, watch_path, filename)
         .at_least(:once)
       write_file(filename, "bar")
-      # TODO: not ideal to introduce a sleep into specs
-      sleep(0.1)
     end
   end
 
@@ -37,6 +35,7 @@ describe ZConfig::Watcher do
 
   def write_file(filename, content)
     File.open(File.join(watch_path, filename), "w") { |file| file << content }
+    sleep(0.1) # TODO: not ideal to introduce a sleep into specs
   end
 
   def delete_file(filename)

@@ -70,8 +70,7 @@ describe ZConfig do
   def create_or_modify_config(name, values)
     path = File.join(base_path, "development", "#{name}.yml")
     File.open(path, "w") { |file| file << YAML.dump(values) }
-    # TODO: not ideal to introduce a sleep into specs
-    sleep(0.1)
+    sleep(0.1) # TODO: not ideal to introduce a sleep into specs
   end
 
   def clean_config_path
