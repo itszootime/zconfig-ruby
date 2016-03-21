@@ -46,14 +46,16 @@ describe ZConfig do
   describe ".reset!" do
     before { ZConfig.setup { |s| s.base_path = base_path } }
 
-    it "empties config data" do
+    it "sets data to nil" do
       ZConfig.reset!
-      expect(ZConfig.config).to be_empty
+      # TODO: this relies on implementation detail
+      expect(ZConfig.instance_variable_get("@data")).to be_nil
     end
 
-    it "raises error when subsequently accessing setup" do
+    it "sets setup to nil" do
       ZConfig.reset!
-      expect { ZConfig.setup }.to raise_error(ZConfig::Error)
+      # TODO: this relies on implementation detail
+      expect(ZConfig.instance_variable_get("@setup")).to be_nil
     end
 
     context "with file watching enabled" do
