@@ -2,8 +2,8 @@ require "yaml"
 
 module ZConfig
   class Data
-    def initialize(data_path)
-      @data_path = data_path
+    def initialize(path)
+      @path = path
       @values = {}
     end
 
@@ -16,9 +16,9 @@ module ZConfig
     end
 
     def load_file(filename)
-      path = File.join(@data_path, filename)
-      if File.exists?(path)
-        @values[filename[0..-5]] = YAML.load(File.read(path))
+      file_path = File.join(@path, filename)
+      if File.exists?(file_path)
+        @values[filename[0..-5]] = YAML.load(File.read(file_path))
       end
     end
 

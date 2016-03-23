@@ -1,11 +1,8 @@
 require "zconfig/data"
 
 describe ZConfig::Data do
-  let(:data_path) do
-    File.expand_path("../../fixtures/base/development", __FILE__)
-  end
-
-  let(:data) { ZConfig::Data.new(data_path) }
+  let(:path) { File.expand_path("../../fixtures/base/development", __FILE__) }
+  let(:data) { ZConfig::Data.new(path) }
 
   describe "#get" do
     it "returns value for given symbol path" do
@@ -32,7 +29,7 @@ describe ZConfig::Data do
 
   describe "#load_file" do
     let(:filename) { "numbers.yml" }
-    let(:file_path) { File.join(data_path, filename) }
+    let(:file_path) { File.join(path, filename) }
 
     before do
       File.open(file_path, "w") { |file| file << YAML.dump("two" => 2) }
