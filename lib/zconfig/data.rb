@@ -8,15 +8,11 @@ module ZConfig
     end
 
     def get(*args)
-      # TODO: this lookup logic is hard to read
-      config_name, lookup_path = args.map(&:to_s)
-      load(config_name) unless @values[config_name]
+      root_name, lookup_path = args.map(&:to_s)
+      root = get_root(root_name)
 
-      unless lookup_path
-        @values[config_name]
-      else
-        @values[config_name].fetch(lookup_path, nil) if @values[config_name]
-      end
+      return root unless root && lookup_path
+      root.fetch(lookup_path, nil)
     end
 
     def load_file(filename)
@@ -28,8 +24,13 @@ module ZConfig
 
     private
 
-    def load(config_name)
-      load_file("#{config_name}.yml")
+    def get_root(root_name)
+      load(root_name) unless @values[root_name]
+      @values[root_name]
+    end
+
+    def load(root_name)
+      load_file("#{root_name}.yml")
     end
   end
 end
