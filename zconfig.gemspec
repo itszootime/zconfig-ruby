@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.homepage = "https://github.com/itszootime/zconfig-ruby"
   spec.license  = "MIT"
 
-  spec.files = Dir.glob("lib/**/*") + %w{README.md}
-  spec.test_files = Dir.glob("spec/**/*")
+  spec.files = Dir["lib/**/*"] + %w{README.md}
+  spec.test_files = Dir["spec/**/*"]
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "rspec", "~> 3.4"
