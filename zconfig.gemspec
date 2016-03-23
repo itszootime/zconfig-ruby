@@ -1,18 +1,20 @@
-$:.unshift(File.expand_path("../lib", __FILE__))
+lib = File.expand_path("../lib", __FILE__)
+$:.unshift(lib) unless $:.include?(lib)
+
 require "zconfig/version"
 
-Gem::Specification.new do |spec|
-  spec.name     = "zconfig"
-  spec.version  = ZConfig::VERSION
-  spec.authors  = ["Richard Jones"]
-  spec.email    = "itszootime@gmail.com"
-  spec.summary  = %q{A client for (re)loading ZConfig-managed configurations}
-  spec.homepage = "https://github.com/itszootime/zconfig-ruby"
-  spec.license  = "MIT"
+Gem::Specification.new do |s|
+  s.name     = "zconfig"
+  s.version  = ZConfig::VERSION
+  s.authors  = ["Richard Jones"]
+  s.email    = "itszootime@gmail.com"
+  s.summary  = %q{A client for (re)loading ZConfig-managed configurations}
+  s.homepage = "https://github.com/itszootime/zconfig-ruby"
+  s.license  = "MIT"
 
-  spec.files = Dir["lib/**/*"] + %w{README.md}
-  spec.test_files = Dir["spec/**/*"]
-  spec.require_paths = ["lib"]
+  s.files = Dir["lib/**/*"] + %w{README.md}
+  s.test_files = Dir["spec/**/*"]
+  s.require_paths = ["lib"]
 
-  spec.add_development_dependency "rspec", "~> 3.4"
+  s.add_development_dependency "rspec", "~> 3.4"
 end
