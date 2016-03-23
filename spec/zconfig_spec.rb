@@ -43,6 +43,31 @@ describe ZConfig do
     end
   end
 
+  describe ".reset!" do
+    before { ZConfig.setup { |s| s.base_path = base_path } }
+
+    it "empties config data" do
+      ZConfig.reset!
+      expect(ZConfig.config).to be_empty
+    end
+
+    it "raises error when subsequently accessing setup" do
+      ZConfig.reset!
+      expect { ZConfig.setup }.to raise_error(ZConfig::Error)
+    end
+
+    context "with file watching enabled" do
+      before { ZConfig.watch! }
+
+      it "stops and resets watcher" do
+        # TODO: this relies on implementation detail
+        expect(ZConfig.instance_variable_get("@watcher")).to receive(:stop)
+        ZConfig.reset!
+        expect(ZConfig.instance_variable_get("@watcher")).to be_nil
+      end
+    end
+  end
+
   describe "file watching" do
     before do
       ZConfig.setup { |s| s.base_path = base_path }

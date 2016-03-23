@@ -22,7 +22,8 @@ module ZConfig
   end
 
   def self.reset!
-    @config, @setup = nil
+    @watcher.stop if @watcher
+    @config, @setup, @watcher = nil
   end
 
   def self.setup
@@ -36,12 +37,13 @@ module ZConfig
   end
 
   def self.watch!
-    watcher = Watcher.new(setup.active_path)
-    watcher.on_event do |event, _, filename|
+    @watcher = Watcher.new(setup.active_path)
+    @watcher.on_event do |event, _, filename|
       load_file(filename) if filename.end_with?(".yml")
     end
-    at_exit { watcher.stop }
-    watcher.start
+    # TODO: multiple calls will add duplicate callbacks
+    at_exit { @watcher.stop if @watcher }
+    @watcher.start
   end
 
   private # of course, this doesn't do anything
