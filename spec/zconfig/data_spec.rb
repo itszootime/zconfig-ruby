@@ -23,6 +23,11 @@ describe ZConfig::Data do
     it "returns nil when root exists, but key doesn't" do
       expect(data.get(:servers, :foo)).to be_nil
     end
+
+    it "doesn't call #load_file once cached" do
+      expect(data).to receive(:load_file).once.and_call_original
+      2.times { data.get(:servers, :db) }
+    end
   end
 
   describe "#load_file" do
