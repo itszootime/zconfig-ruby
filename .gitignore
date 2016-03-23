@@ -1,2 +1,4 @@
 .rspec
+.yardoc
+doc/
 Gemfile.lock
