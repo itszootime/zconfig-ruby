@@ -47,6 +47,8 @@ module ZConfig
       yield @setup
     else
       raise Error, "ZConfig hasn't been setup!" unless @setup
+      # TODO: this exposes the ability to change setup values after data/watcher
+      #   have been initialized, which won't actually do anything
       @setup
     end
   end
