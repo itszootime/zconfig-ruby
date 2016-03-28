@@ -23,7 +23,6 @@ module ZConfig
   #   ZConfig.get(:servers, :db) # return value for 'db' key from servers.yml
   # @see Data#get
   def self.get(*args)
-    # TODO: use delegate
     data.get(*args)
   end
 
