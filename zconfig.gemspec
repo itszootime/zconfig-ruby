@@ -11,8 +11,9 @@ Gem::Specification.new do |s|
   s.summary  = %q{A client for (re)loading ZConfig-managed configurations}
   s.homepage = "https://github.com/itszootime/zconfig-ruby"
   s.license  = "MIT"
+  s.has_rdoc = "yard"
 
-  s.files = Dir["lib/**/*"] + %w{README.md}
+  s.files = Dir["lib/**/*"] + %w{.yardopts LICENSE README.md zconfig.gemspec}
   s.test_files = Dir["spec/**/*"]
   s.require_paths = ["lib"]
 
