@@ -1,1 +1,5 @@
+addons:
+  apt:
+    packages:
+    - inotify-tools
 script: bundle exec rspec --order random --format documentation --color
