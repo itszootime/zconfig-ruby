@@ -1,4 +1,4 @@
-require "zconfig/data"
+require "zconfig"
 
 describe ZConfig::Data do
   let(:path) { File.expand_path("../../fixtures/base/development", __FILE__) }

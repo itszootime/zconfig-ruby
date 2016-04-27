@@ -1,4 +1,4 @@
-require "zconfig/setup"
+require "zconfig"
 
 describe ZConfig::Setup do
   let(:setup) { ZConfig::Setup.new }
