@@ -1,5 +1,7 @@
 # zconfig
 
+[![Build Status](https://travis-ci.org/itszootime/zconfig-ruby.svg?branch=master)](https://travis-ci.org/itszootime/zconfig-ruby)
+
 A library for accessing ZConfig-managed configurations within Ruby. It includes a watcher to automatically reload configurations when files are modified by the daemon.
 
 ## Requirements
