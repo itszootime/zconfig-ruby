@@ -47,8 +47,6 @@ module ZConfig
       yield @setup
     else
       raise Error, "ZConfig hasn't been setup!" unless @setup
-      # TODO: this exposes the ability to change setup values after data/watcher
-      #   have been initialized, which won't actually do anything
       @setup
     end
   end
@@ -62,7 +60,6 @@ module ZConfig
     @watcher.on_event do |event, _, filename|
       data.load_file(filename) if filename.end_with?(".yml")
     end
-    # TODO: multiple calls will add duplicate callbacks
     at_exit { @watcher.stop if @watcher }
     @watcher.start
   end

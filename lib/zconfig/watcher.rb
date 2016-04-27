@@ -27,7 +27,6 @@ module ZConfig
     # @raise [Error] if the watcher couldn't be started
     def start
       input, output = IO.pipe
-      # TODO: what if process gets killed by os?
       begin
         @pid = spawn("inotifywait -mrq #{@watch_path}", out: output)
       rescue Errno::ENOENT
@@ -50,7 +49,6 @@ module ZConfig
       while line = input.readline
         path, event, filename = line.split(/\s/)
         event = event.downcase.to_sym
-        # TODO: handle more events
         if event == :modify
           @callbacks.each do |callback|
             callback.call(event, path[0..-2], filename)
