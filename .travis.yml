@@ -1,1 +1,1 @@
-script: bundle exec rspec --random --format documentation --color
+script: bundle exec rspec --order random --format documentation --color
