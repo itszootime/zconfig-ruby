@@ -23,11 +23,16 @@ module ZConfig
     end
 
     # Starts watching for file changes.
+    #
+    # @raise [Error] if the watcher couldn't be started
     def start
       input, output = IO.pipe
-      # TODO: what if inotifywait isn't installed?
       # TODO: what if process gets killed by os?
-      @pid = spawn("inotifywait -mrq #{@watch_path}", out: output)
+      begin
+        @pid = spawn("inotifywait -mrq #{@watch_path}", out: output)
+      rescue Errno::ENOENT
+        raise Error, "Couldn't start watcher, is inotifywait installed?"
+      end
       output.close
       Thread.new { process_and_wait(input) }
     end

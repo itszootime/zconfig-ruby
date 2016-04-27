@@ -1,4 +1,4 @@
-require "zconfig/watcher"
+require "zconfig"
 
 describe ZConfig::Watcher do
   let(:watch_path) do
@@ -6,6 +6,16 @@ describe ZConfig::Watcher do
   end
 
   let(:watcher) { ZConfig::Watcher.new(watch_path) }
+
+  describe "#start" do
+    context "when inotifywait can't be found" do
+      before { allow(Kernel).to receive(:spawn).and_raise(Errno::ENOENT) }
+
+      it "raises ZConfig::Error" do
+        expect { watcher.start }.to raise_error(ZConfig::Error)
+      end
+    end
+  end
 
   context "after #start" do
     let(:filename) { "test.yml" }
