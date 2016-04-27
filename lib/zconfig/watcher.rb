@@ -28,7 +28,7 @@ module ZConfig
     def start
       input, output = IO.pipe
       begin
-        @pid = spawn("inotifywait -mrq #{@watch_path}", out: output)
+        @pid = Kernel.spawn("inotifywait -mrq #{@watch_path}", out: output)
       rescue Errno::ENOENT
         raise Error, "Couldn't start watcher, is inotifywait installed?"
       end
