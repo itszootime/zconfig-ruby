@@ -6,7 +6,7 @@ A library for accessing ZConfig-managed configurations within Ruby. It includes 
 
 ## Requirements
 
-This gem is currently only compatible with UNIX-based systems with inotify installed. Support for more will be coming soon.
+This gem is currently only compatible with UNIX-based systems with [inotify-tools](https://github.com/rvoicilas/inotify-tools) installed. Support for more will be coming soon.
 
 ## Usage
 
