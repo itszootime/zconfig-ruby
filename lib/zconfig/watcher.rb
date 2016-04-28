@@ -30,7 +30,7 @@ module ZConfig
       begin
         @pid = Kernel.spawn("inotifywait -mrq #{@watch_path}", out: output)
       rescue Errno::ENOENT
-        raise Error, "Couldn't start watcher, is inotifywait installed?"
+        raise Error, "Couldn't start watcher, is inotify-tools installed?"
       end
       output.close
       Thread.new { process_and_wait(input) }
