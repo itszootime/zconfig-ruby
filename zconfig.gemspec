@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version  = ZConfig::VERSION
   s.authors  = ["Richard Jones"]
   s.email    = "itszootime@gmail.com"
-  s.summary  = %q{A client for (re)loading ZConfig-managed configurations}
+  s.summary  = %q{A library for accessing ZConfig-managed configurations within Ruby}
   s.homepage = "https://github.com/itszootime/zconfig-ruby"
   s.license  = "MIT"
   s.has_rdoc = "yard"
