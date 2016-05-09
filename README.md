@@ -1,4 +1,4 @@
-# zconfig
+# zconfig-ruby
 
 [![Build Status](https://travis-ci.org/itszootime/zconfig-ruby.svg?branch=master)](https://travis-ci.org/itszootime/zconfig-ruby)
 
